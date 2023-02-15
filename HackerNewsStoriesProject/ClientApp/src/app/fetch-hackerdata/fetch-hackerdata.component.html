@@ -1,0 +1,35 @@
+
+  <h1 id="tableLabel">Hacker News Stories</h1>
+
+  <p>Enjoy reading the Newest Stories from Hacker News site</p>
+
+  <p *ngIf="!hackernewslists"><em>Loading...</em></p>
+  
+    <input placeholder="Search Story         " [(ngModel)]="searchText">
+    <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="hackernewslists">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>URL</th>
+          <th>Author</th>
+          <th>Created on</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hackernewslist of hackernewslists | filter: searchText | paginate: {itemsPerPage: pageitemsize, currentPage: pagenumber, totalItems: pageitemtotalcount}">
+          <td><a href="{{ hackernewslist.url }}" target="_blank">{{ hackernewslist.title }}</a></td>
+          <td>{{ hackernewslist.text }}</td>
+          <td>{{ hackernewslist.url }}</td>
+          <td>{{ hackernewslist.by }}</td>
+          <td>{{ hackernewslist.time * 1000 | date }}</td>
+          <td>{{ hackernewslist.type }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div id="pagination">
+        <pagination-controls (pageChange)="handlePageChange($event)"></pagination-controls>
+    </div>
+  
+
